@@ -1,9 +1,7 @@
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/user.model';
 import { ApiError } from '@/utils/apiError';
-import { ApiResponse } from '@/utils/apiResponse';
 import { NextAuthOptions, Session, User as NextAuthUser } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
@@ -50,7 +48,7 @@ export const authOptions: NextAuthOptions = {
           return user;
         } catch (error) {
           console.log('Error while authorizing user:', error);
-          throw new ApiError(500, 'Error while authorizing user');
+          throw error;
         }
       }
     })
