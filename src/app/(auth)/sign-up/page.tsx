@@ -85,8 +85,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen mx-8'>
-      <div className="shadow-input mx-auto mt-16 w-full max-w-md rounded-none p-4 md:rounded-2xl md:p-8">
+    <div className='flex justify-center items-center h-screen mx-4'>
+      <div className="shadow-input mx-auto mt-16 w-full max-w-md rounded-lg p-8 bg-neutral-900">
         <h2 className="text-xl font-bold text-neutral-200">
           Welcome to FinTrack
         </h2>
@@ -183,7 +183,7 @@ const SignUp = () => {
                 </FormItem>
               )}
             />
-            <Button variant={'secondary'} type='submit' className='w-full my-4 group disabled:cursor-not-allowed' disabled={isSubmitting || usernameMessage !== 'Username is unique'}>
+            <Button variant={'secondary'} type='submit' className='w-full my-4 group disabled:cursor-not-allowed' disabled={isSubmitting}>
               {
                 isSubmitting ? (
                   <>

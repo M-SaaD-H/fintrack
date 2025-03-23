@@ -59,7 +59,7 @@ const SignIn = () => {
 
   return (
     <div className='flex justify-center items-center h-screen mx-8'>
-      <div className="shadow-input mx-auto w-full max-w-md rounded-none p-4 md:rounded-2xl md:p-8">
+      <div className="shadow-input mx-auto w-full max-w-md rounded-lg p-8 bg-neutral-900">
         <h2 className="text-xl font-bold text-neutral-200">
           Welcome back to FinTrack
         </h2>
