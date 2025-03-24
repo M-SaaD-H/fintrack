@@ -1,12 +1,11 @@
-import { connectDB } from "@/lib/db";
-import { User } from "@/models/user.model";
-import { usernameValidation } from "@/schemas/signup.schema";
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { errorHandler } from "@/utils/errorHandler";
-import { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { connectDB } from '@/lib/db';
+import { User } from '@/models/user.model';
+import { usernameValidation } from '@/schemas/signup.schema';
+import { ApiError } from '@/utils/apiError';
+import { ApiResponse } from '@/utils/apiResponse';
+import { errorHandler } from '@/utils/errorHandler';
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 const UsernameQuerySchema = z.object({
   username: usernameValidation

@@ -1,8 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
-interface User {
+export interface IUser extends Document {
   _id: string;
   fullName: {
     firstName: string;
@@ -11,15 +10,15 @@ interface User {
   username: string;
   email: string;
   password: string;
+  balance: {
+    upi: number;
+    cash: number;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface UserMethods {
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
-
-const userSchema = new Schema<User, {}, UserMethods>(
+const userSchema: Schema<IUser> = new Schema(
   {
     fullName: {
       firstName: {
@@ -48,7 +47,17 @@ const userSchema = new Schema<User, {}, UserMethods>(
       type: String,
       required: true,
       minlength: [8, "Password must be at least 8 characters long"],
-    }
+    },
+    balance: {
+      upi: {
+        type: Number,
+        default: 0,
+      },
+      cash: {
+        type: Number,
+        default: 0,
+      },
+    },
   }, { timestamps: true }
 );
 
@@ -65,6 +74,4 @@ userSchema.methods.comparePassword = async function (candidatePassword: string) 
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-const User = mongoose.models.User || mongoose.model<User>("User", userSchema);
-
-export { User };
+export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);

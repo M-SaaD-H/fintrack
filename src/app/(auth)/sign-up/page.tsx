@@ -37,7 +37,7 @@ const SignUp = () => {
       setUsernameMessage('');
 
       try {
-        const response = await axios.get<ApiResponse>(`/api/check-username-unique/?username=${username}`);
+        const response = await axios.get<ApiResponse>(`/api/user/check-username-unique/?username=${username}`);
         setUsernameMessage(response.data.message);
       } catch (error) {
         const apiError = error as AxiosError<ApiResponse>;
