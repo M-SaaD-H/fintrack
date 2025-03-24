@@ -6,14 +6,15 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useDebounceCallback } from 'usehooks-ts';
-import { ApiError } from '@/utils/apiError';
 import axios, { AxiosError } from 'axios';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/formInput';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { ApiResponse } from '@/utils/apiResponse';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 const SignUp = () => {
   // form fields
@@ -86,120 +87,130 @@ const SignUp = () => {
 
   return (
     <div className='flex justify-center items-center h-screen mx-4'>
-      <div className="shadow-input mx-auto mt-16 w-full max-w-md rounded-lg p-8 md:bg-neutral-900">
-        <h2 className="text-xl font-bold text-neutral-200">
-          Welcome to FinTrack
-        </h2>
-        <p className="mt-2 max-w-sm text-sm text-neutral-300">
-          Take Control of Your Finances - Track, Save, and Grow!
-        </p>
+      <Card className="shadow-input mx-auto mt-16 w-full max-w-md rounded-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-neutral-200">
+            Welcome to FinTrack
+          </CardTitle>
+          <CardDescription className="mt-2 max-w-sm text-sm text-neutral-300">
+            Take Control of Your Finances - Track, Save, and Grow!
+          </CardDescription>
+        </CardHeader>
 
         {/* form */}
 
-        <Form {...form}>
-          <form className='my-8 space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="mb-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-2">
-              <FormField
-                name="firstName"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-neutral-200 ml-2'>First name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="lastName"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-neutral-200 ml-2'>Last name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormField
-              name="username"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-neutral-200 ml-2'>Username</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="example_123"
-                      onChange={(e) => {
-                        field.onChange(e);
-                        debounce(e.target.value);
-                      }}
-                    />
-                  </FormControl>
-                  {checkingUsername && <Loader2 className='animate-spin text-neutral-200' />}
-                  {!checkingUsername && usernameMessage && (
-                    <p
-                      className={`text-sm ${usernameMessage === 'Username is unique'
-                        ? 'text-green-600'
-                        : 'text-red-600'
-                        }`}
-                    >
-                      {usernameMessage}
-                    </p>
+        <CardContent>
+          <Form {...form}>
+            <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="mb-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-2">
+                <FormField
+                  name="firstName"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='text-neutral-200 ml-2'>First name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-neutral-200 ml-2'>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example@gmail.com" type='email' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-neutral-200 ml-2'>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="••••••••" type='password' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button variant={'secondary'} type='submit' className='w-full my-4 group disabled:cursor-not-allowed' disabled={isSubmitting}>
-              {
-                isSubmitting ? (
-                  <>
-                    <Loader2 className='animate-spin' />
-                    <span className='ml-2'>Signing up...</span>
-                  </>
-                ) : (
-                  <>
-                    Sign Up <span className='group-hover:translate-x-1 transition-transform duration-300'>&rarr;</span>
-                  </>
-                )
-              }
-            </Button>
-          </form>
-        </Form>
-      </div>
+                />
+                <FormField
+                  name="lastName"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='text-neutral-200 ml-2'>Last name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                name="username"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='text-neutral-200 ml-2'>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="example_123"
+                        onChange={(e) => {
+                          field.onChange(e);
+                          debounce(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                    {checkingUsername && <Loader2 className='animate-spin text-neutral-200' />}
+                    {!checkingUsername && usernameMessage && (
+                      <p
+                        className={`text-sm ${usernameMessage === 'Username is unique'
+                          ? 'text-green-600'
+                          : 'text-red-600'
+                          }`}
+                      >
+                        {usernameMessage}
+                      </p>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='text-neutral-200 ml-2'>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="example@gmail.com" type='email' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='text-neutral-200 ml-2'>Password</FormLabel>
+                    <FormControl>
+                      <Input placeholder="••••••••" type='password' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button variant={'secondary'} type='submit' className='w-full mt-4 group disabled:cursor-not-allowed' disabled={isSubmitting}>
+                {
+                  isSubmitting ? (
+                    <>
+                      <Loader2 className='animate-spin' />
+                      <span className='ml-2'>Signing up...</span>
+                    </>
+                  ) : (
+                    <>
+                      Sign Up <span className='group-hover:translate-x-1 transition-transform duration-300'>&rarr;</span>
+                    </>
+                  )
+                }
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className='flex items-center justify-center gap-2'>
+          <p className='text-sm text-neutral-300'>
+            Already have an account?
+          </p>
+          <Link href='/sign-in' className='text-sm text-neutral-300 underline underline-offset-4'>Sign in</Link>
+        </CardFooter>
+      </Card>
     </div>
   )
 }
