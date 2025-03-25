@@ -101,7 +101,6 @@ const SignIn = () => {
                 )}
               />
               <Button
-                variant={'secondary'}
                 type='submit'
                 className='w-full mt-6 group disabled:cursor-not-allowed'
                 disabled={isSubmitting}

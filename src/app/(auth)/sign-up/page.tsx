@@ -187,7 +187,7 @@ const SignUp = () => {
                   </FormItem>
                 )}
               />
-              <Button variant={'secondary'} type='submit' className='w-full mt-4 group disabled:cursor-not-allowed' disabled={isSubmitting}>
+              <Button type='submit' className='w-full mt-4 group disabled:cursor-not-allowed' disabled={isSubmitting}>
                 {
                   isSubmitting ? (
                     <>
