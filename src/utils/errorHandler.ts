@@ -7,7 +7,7 @@ export const errorHandler = (handler: (req: NextRequest) => Promise<NextResponse
     try {
       return await handler(req);
     } catch (error: any) {
-      console.log('E:', error.message);
+      console.log('E:', error);
 
       if(error instanceof ApiError) {
         return NextResponse.json(

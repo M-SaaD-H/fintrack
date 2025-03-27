@@ -27,23 +27,34 @@ export const PATCH = errorHandler(async (req: NextRequest) => {
   
   await connectDB();
 
-  const user = await User.findById(userId);
+  // Create update object with only the fields that are present
+  const incrementFieldsFields: Record<string, any> = {};
+  const setFields: Record<string, any> = {};
 
-  if(!user) {
+  if (upi) {
+    incrementFieldsFields['balance.upi.amount'] = upi;
+    setFields['balance.upi.updatedAt'] = new Date();
+  }
+  
+  if (cash) {
+    incrementFieldsFields['balance.cash.amount'] = cash;
+    setFields['balance.cash.updatedAt'] = new Date();
+  }
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      $inc: incrementFieldsFields,
+      $set: setFields,
+    },
+    { new: true }
+  );
+
+  if (!user) {
     throw new ApiError(404, 'User not found');
   }
 
-  if(upi) {
-    user.balance.upi = upi;
-  }
-
-  if(cash) {
-    user.balance.cash = cash;
-  }
-
-  await user.save();
-
   return NextResponse.json(
-    new ApiResponse(200, {}, 'Balance updated successfully')
+    new ApiResponse(200, { updatedBalance: user.balance }, 'Balance updated successfully')
   );
 })

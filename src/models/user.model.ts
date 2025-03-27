@@ -11,8 +11,14 @@ export interface IUser extends Document {
   email: string;
   password: string;
   balance: {
-    upi: number;
-    cash: number;
+    upi: {
+      amount: number;
+      updatedAt: Date;
+    };
+    cash: {
+      amount: number;
+      updatedAt: Date;
+    };
   };
   createdAt: Date;
   updatedAt: Date;
@@ -50,15 +56,29 @@ const userSchema: Schema<IUser> = new Schema(
     },
     balance: {
       upi: {
-        type: Number,
-        default: 0,
+        amount: {
+          type: Number,
+          default: 0,
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        }
       },
       cash: {
-        type: Number,
-        default: 0,
+        amount: {
+          type: Number,
+          default: 0,
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        }
       },
     },
-  }, { timestamps: true }
+  }, {
+    timestamps: true,
+  }
 );
 
 // Hash the password before saving

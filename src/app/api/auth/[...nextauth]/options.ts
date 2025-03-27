@@ -54,12 +54,27 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }){
-      if(user) {
+    async jwt({ token, user }) {
+      // Initial sign-in
+      if (user) {
         token._id = user._id?.toString();
         token.fullName = user.fullName;
         token.username = user.username;
         token.email = user.email;
+        return token;
+      }
+
+      // Subsequent calls
+      try {
+        const dbUser = await User.findById(token.sub).select('+balance');
+        if (dbUser) {
+          token._id = dbUser._id?.toString();
+          token.fullName = dbUser.fullName;
+          token.username = dbUser.username;
+          token.email = dbUser.email;
+        }
+      } catch (error) {
+        console.error("Error fetching user in jwt callback:", error);
       }
       
       return token;

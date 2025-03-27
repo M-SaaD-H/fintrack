@@ -160,14 +160,17 @@ interface CustomSession extends Session {
       lastName: string,
     },
     email: string,
+    balance: {
+      upi: number,
+      cash: number,
+      updatedAt: Date
+    },
     [key: string]: any,
   },
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession() as { data: CustomSession, status: string };
-
-  console.log("session", session);
 
   if(!session || !session.user) return null;
 

@@ -57,9 +57,9 @@ export const POST = errorHandler(async (req: NextRequest) => {
 
   // Update the user's balance
   if(paymentMethod === 'Cash') {
-    user.balance.cash -= amount;
+    user.balance.cash.amount -= amount;
   } else {
-    user.balance.upi -= amount;
+    user.balance.upi.amount -= amount;
   }
 
   await user.save();

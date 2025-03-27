@@ -23,6 +23,9 @@ import { ApiResponse } from "@/utils/apiResponse"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 import { useRef, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { useTimeout } from "usehooks-ts"
 
 type Item = {
   title: string,
@@ -32,6 +35,7 @@ type Item = {
 
 export function NavMain() {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const items: Item[] = [
     {
@@ -56,6 +60,8 @@ export function NavMain() {
     },
   });
 
+  const { data: session, update } = useSession();
+
   const handleAddBalance = async (data: z.infer<typeof addBalanceSchema>) => {
     setLoading(true);
 
@@ -75,8 +81,13 @@ export function NavMain() {
       });
     } finally {
       setLoading(false);
+      form.reset();
       closeDialogRef.current?.click();
     }
+
+    useTimeout(() => {
+      router.refresh();
+    }, 1000);
   }
 
   return (
