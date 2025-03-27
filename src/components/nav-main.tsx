@@ -26,6 +26,7 @@ import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { useTimeout } from "usehooks-ts"
+import { useRefresh } from "@/context/RefreshContext"
 
 type Item = {
   title: string,
@@ -35,7 +36,7 @@ type Item = {
 
 export function NavMain() {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
-  const router = useRouter();
+  const { refresh } = useRefresh();
 
   const items: Item[] = [
     {
@@ -70,6 +71,7 @@ export function NavMain() {
 
       if (res.data.success) {
         toast.success(res.data.message);
+        refresh();
       }
     } catch (error) {
       console.error('Error while updating balance E:', error);
@@ -84,10 +86,6 @@ export function NavMain() {
       form.reset();
       closeDialogRef.current?.click();
     }
-
-    useTimeout(() => {
-      router.refresh();
-    }, 1000);
   }
 
   return (

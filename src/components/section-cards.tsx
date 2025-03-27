@@ -16,6 +16,7 @@ import { ShoppingBag, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ApiResponse } from "@/utils/apiResponse";
+import { useRefresh } from "@/context/RefreshContext";
 
 function formatDate(date: Date | string) {
   if(typeof window === 'undefined') return '';
@@ -59,7 +60,7 @@ type infoType = {
 }
 
 export function SectionCards() {
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { refreshTrigger } = useRefresh();
   const [info, setInfo] = useState<infoType>();
 
   const [lastCashSpentDate, setLastCashSpentDate] = useState<string>('');
@@ -118,7 +119,7 @@ export function SectionCards() {
             Combined UPI & Cash Balance
           </div>
           <div className="text-muted-foreground">
-            Last Updated: {
+            Last Added: {
               lastUpdatedAt !== 'Invalid Date' && `${lastUpdatedAt}`
             }
           </div>
