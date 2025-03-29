@@ -105,7 +105,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Total Balance</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            { (info?.currentInfo.cash.amount || 0) + (info?.currentInfo.upi.amount || 0) }
+            { (info?.currentInfo.cash.amount || 0) + (info?.currentInfo.upi.amount || 0) } <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -129,7 +129,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>UPI Balance</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {info?.currentInfo.upi.amount}
+            {info?.currentInfo.upi.amount || 0} <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -151,7 +151,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Cash Balance</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {info?.currentInfo.cash.amount}
+            {info?.currentInfo.cash.amount || 0} <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -173,7 +173,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Spent this Sem</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            { (info?.spentInfo.cash.totalAmountSpent || 0) + (info?.spentInfo.upi.totalAmountSpent || 0) }
+            { (info?.spentInfo.cash.totalAmountSpent || 0) + (info?.spentInfo.upi.totalAmountSpent || 0) } <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
