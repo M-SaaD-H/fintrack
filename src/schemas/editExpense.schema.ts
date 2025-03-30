@@ -6,7 +6,7 @@ export const editExpenseSchema = z.object({
   paymentMethod: z.enum(["Cash", "UPI"]).optional(),
   amount: z.coerce.number().optional(),
 }).refine(data => {
-  return [data.description, data.category, data.paymentMethod, data.amount].some(field => field === undefined)
+  return [data.description, data.category, data.paymentMethod, data.amount].some(field => field !== undefined)
 }, {
   message: "At least one field must be provided",
   path: ['_errors']
