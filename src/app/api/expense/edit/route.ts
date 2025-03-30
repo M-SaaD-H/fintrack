@@ -8,6 +8,7 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const PATCH = errorHandler(async (req: NextRequest) => {
+  console.log('got req');
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if(!token) {
@@ -83,14 +84,14 @@ export const PATCH = errorHandler(async (req: NextRequest) => {
 
   // Update the user's balance
   if(expense.paymentMethod === 'Cash') {
-    user.balance.cash += amountDifference;
+    user.balance.cash.amount += amountDifference;
   } else {
-    user.balance.upi += amountDifference;
+    user.balance.upi.amount += amountDifference;
   }
 
   await user.save();
   
   return NextResponse.json(
-    new ApiResponse(200, {}, 'Expense updated successfully')
+    new ApiResponse(200, expense, 'Expense updated successfully')
   );
 })

@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const editExpenseSchema = z.object({
   description: z.string().optional(),
-  category: z.enum(["Food", "Stationary", "Transportation", "Entertainment", "Other"]).optional(),
+  category: z.enum(["Food", "Stationary", "Transportation", "Entertainment", "Shopping", "Other"]).optional(),
   paymentMethod: z.enum(["Cash", "UPI"]).optional(),
   amount: z.coerce.number().optional(),
 }).refine(data => {

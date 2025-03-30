@@ -65,6 +65,6 @@ export const POST = errorHandler(async (req: NextRequest) => {
   await user.save();
   
   return NextResponse.json(
-    new ApiResponse(201, expense, 'Expense created successfully'),
+    new ApiResponse(201, expense, 'Expense added successfully'),
   )
 });

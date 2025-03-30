@@ -106,10 +106,10 @@ export function NavMain() {
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                   <DialogTitle>Add Balance</DialogTitle>
+                  <DialogDescription>
+                    Add a new balance to your account.
+                  </DialogDescription>
                 </DialogHeader>
-                <DialogDescription>
-                  Add a new balance to your account.
-                </DialogDescription>
 
                 <DialogClose ref={closeDialogRef} />
 

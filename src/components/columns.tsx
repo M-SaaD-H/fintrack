@@ -3,7 +3,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ColumnDef, Row } from "@tanstack/react-table"
 import { Button } from "./ui/button";
-import { MoreVerticalIcon } from "lucide-react";
+import { Loader2, MoreVerticalIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { IconBrandGoogle, IconCashBanknote } from "@tabler/icons-react";
 import { Drawer, DrawerTitle, DrawerContent, DrawerHeader, DrawerTrigger, DrawerFooter, DrawerDescription, DrawerClose } from "./ui/drawer";
@@ -16,6 +16,10 @@ import { Input } from "./ui/input";
 import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "./ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
+import { ApiResponse } from "@/utils/apiResponse";
+import { useRefresh } from "@/context/RefreshContext";
 
 function formatDate(date: Date | string) {
   if (typeof window === 'undefined') return '';
@@ -36,12 +40,12 @@ function formatDate(date: Date | string) {
 }
 
 export type Expense = {
-  id: number
+  _id: string
   description: string
-  paymentMethod: string
+  paymentMethod: "UPI" | "Cash"
   amount: number
-  category: string
-  createdAt: string
+  category: "Food" | "Transportation" | "Entertainment" | "Shopping" | "Other"
+  createdAt: Date
 }
 
 export const columns: ColumnDef<Expense>[] = [
@@ -115,6 +119,8 @@ export const columns: ColumnDef<Expense>[] = [
 const Actions = ({ row }: { row: Row<Expense> }) => {
   const isMoble = useIsMobile();
   const [open, setOpen] = useState(false);
+  const { refresh } = useRefresh();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof editExpenseSchema>>({
     resolver: zodResolver(editExpenseSchema),
@@ -126,8 +132,48 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
     }
   });
 
-  const onSubmit = (data: z.infer<typeof editExpenseSchema>) => {
-    console.log(data)
+  const onSubmit = async (data: z.infer<typeof editExpenseSchema>) => {
+    setLoading(true);
+
+    try {
+      const response = await axios.patch<ApiResponse>(`/api/expense/edit?expenseId=${row.original._id}`, data);
+
+      if (response.data.success) {
+        toast.success('Expense updated successfully');
+        refresh();
+      }
+    } catch (error) {
+      console.error('Error while updating expense E:', error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message;
+
+      toast.error('Failed to update expense', {
+        description: errorMessage
+      });
+    } finally {
+      setOpen(false);
+      form.reset();
+      setLoading(false);
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete<ApiResponse>(`/api/expense/delete?expenseId=${row.original._id}`);
+
+      if (response.data.success) {
+        toast.success('Expense deleted successfully');
+        refresh();
+      }
+    } catch (error) {
+      console.error('Error while deleting expense:', error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message;
+
+      toast.error('Failed to delete expense', {
+        description: errorMessage
+      });
+    }
   }
 
   return (
@@ -148,16 +194,16 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete} variant="destructive">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Here using the drawer component from dropdown menu and without using drawer trigger is not a very good approach. But it is the only way that I can think of to resolve the issue of closing of the dropdown and the drawer */}
 
       <Drawer open={open} onOpenChange={setOpen} direction={isMoble ? "bottom" : "right"}>
-        <DrawerContent className="pt-8">
+        <DrawerContent className="pt-3">
           <DrawerHeader>
-            <DrawerTitle>Edit your expense</DrawerTitle>
+            <DrawerTitle className="text-xl font-semibold">Edit your expense</DrawerTitle>
             <DrawerDescription>
               Make changes to your expense here. Click save when you're done.
             </DrawerDescription>
@@ -233,6 +279,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
                         </SelectContent>
                       </Select>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -240,7 +287,18 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
           </Form>
 
           <DrawerFooter>
-            <Button type="submit" className="w-full" form="edit-expense-form">Save</Button>
+            <Button type="submit" form="edit-expense-form" disabled={loading} className="w-full mt-4">
+              {
+                loading ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Please Wait
+                  </>
+                ) : (
+                  'Save'
+                )
+              }
+            </Button>
             <DrawerClose asChild>
               <Button variant="outline" className="w-full">Cancel</Button>
             </DrawerClose>

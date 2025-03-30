@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useSession } from "next-auth/react";
 import { ShoppingBag, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -60,7 +59,7 @@ type infoType = {
 }
 
 export function SectionCards() {
-  const { refreshTrigger } = useRefresh();
+  const { refresh, refreshTrigger } = useRefresh();
   const [info, setInfo] = useState<infoType>();
 
   const [lastCashSpentDate, setLastCashSpentDate] = useState<string>('');
@@ -70,10 +69,14 @@ export function SectionCards() {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get<ApiResponse>('/api/expense/get-info');
+      try {
+        const res = await axios.get<ApiResponse>('/api/expense/get-info');
 
-      if(res.data.success) {
-        setInfo(res.data.data);
+        if(res.data.success) {
+          setInfo(res.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching info E:', error);
       }
     })();
   }, [setInfo, refreshTrigger]);
@@ -81,23 +84,18 @@ export function SectionCards() {
   useEffect(() => {
     if(!info) return;
 
-    const lastCashSpentDate = formatDate(info.spentInfo.cash.lastSpentDate);
-    const lastUpiSpentDate = formatDate(info.spentInfo.upi.lastSpentDate);
+    const lastCashSpentDate = formatDate(info.spentInfo?.cash.lastSpentDate);
+    const lastUpiSpentDate = formatDate(info.spentInfo?.upi.lastSpentDate);
 
-    const lastCashUpdatedAt = formatDate(info.currentInfo.cash.updatedAt);
-    const lastUpiUpdatedAt = formatDate(info.currentInfo.upi.updatedAt);
-
-    console.log('lastCashUpdatedAt =', lastCashUpdatedAt);
-    console.log('lastUpiUpdatedAt =', lastUpiUpdatedAt);
+    const lastCashUpdatedAt = formatDate(info.currentInfo?.cash.updatedAt);
+    const lastUpiUpdatedAt = formatDate(info.currentInfo?.upi.updatedAt);
 
     setLastCashSpentDate(lastCashSpentDate);
     setLastUpiSpentDate(lastUpiSpentDate);
     
-    const lastUpdatedAt = info.currentInfo.cash.updatedAt > info.currentInfo.upi.updatedAt ? lastCashUpdatedAt : lastUpiUpdatedAt;
+    const lastUpdatedAt = info.currentInfo?.cash.updatedAt > info.currentInfo?.upi.updatedAt ? lastCashUpdatedAt : lastUpiUpdatedAt;
     setLastUpdatedAt(lastUpdatedAt);
   }, [info]);
-
-  console.log("info =", info);
 
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
@@ -173,7 +171,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Spent this Sem</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            { (info?.spentInfo.cash.totalAmountSpent || 0) + (info?.spentInfo.upi.totalAmountSpent || 0) } <span className="text-muted-foreground text-xl">Rs</span>
+            { (info?.spentInfo?.cash.totalAmountSpent || 0) + (info?.spentInfo?.upi.totalAmountSpent || 0) } <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -187,7 +185,7 @@ export function SectionCards() {
             Amount spent this Sem
           </div>
           <div className="text-muted-foreground">
-            {info?.spentInfo.cash.totalAmountSpent} in cash, {info?.spentInfo.upi.totalAmountSpent} in UPI
+            {info?.spentInfo?.cash.totalAmountSpent} in cash, {info?.spentInfo?.upi.totalAmountSpent} in UPI
           </div>
         </CardFooter>
       </Card>

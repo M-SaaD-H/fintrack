@@ -72,10 +72,16 @@ export const GET = errorHandler(async (req: NextRequest) => {
       200,
       {
         currentInfo: {
-          cash: user.balance.cash,
-          upi: user.balance.upi,
+          cash: {
+            amount: user.balance.cash.amount,
+            updatedAt: user.balance.cash.updatedAt,
+          },
+          upi: {
+            amount: user.balance.upi.amount,
+            updatedAt: user.balance.upi.updatedAt,
+          },
         },
-        spentInfo: info[0].methods
+        spentInfo: info[0]?.methods
       },
       'Amount spent fetched successfully'
     )

@@ -1,3 +1,5 @@
+'use client';
+
 import { AppSidebar } from "@/components/app-sidebar"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { DataTable } from "@/components/data-table"
@@ -8,10 +10,33 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import { useEffect, useState } from "react";
+import { ApiResponse } from "@/utils/apiResponse"
+import axios from "axios"
+import { toast } from "sonner";
+import { useRefresh } from "@/context/RefreshContext";
 
-import data from "./data.json"
+import { Expense } from "@/components/columns";
+import { Button } from "@/components/ui/button";
+import { AddExpense } from "@/components/AddExpense";
 
 export default function Page() {
+  const [data, setData] = useState<Expense[]>([]);
+
+  const { refreshTrigger } = useRefresh();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get<ApiResponse>('/api/user/get-all-expenses');
+        setData(response.data.data);
+      } catch (error) {
+        console.log('Error fetching expenses E:', error);
+        toast.error('Error fetching expenses');
+      }
+    })();
+  }, [setData, refreshTrigger]);
+
   return (
     <SidebarProvider
       style={
@@ -31,6 +56,7 @@ export default function Page() {
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
               </div>
+              <AddExpense />
               <div className="px-4 lg:px-6">
                 <DataTable columns={columns} data={data} />
               </div>
