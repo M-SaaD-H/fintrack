@@ -4,6 +4,7 @@ import { User } from "@/models/user.model";
 import { ApiError } from "@/utils/apiError";
 import { ApiResponse } from "@/utils/apiResponse";
 import { errorHandler } from "@/utils/errorHandler";
+import mongoose from "mongoose";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -33,7 +34,7 @@ export const GET = errorHandler(async (req: NextRequest) => {
   const info = await Expense.aggregate([
     {
       $match: {
-        userId: userId
+        userId: new mongoose.Types.ObjectId(userId)
       }
     },
     {
@@ -67,6 +68,8 @@ export const GET = errorHandler(async (req: NextRequest) => {
     }
   ]);
 
+  console.log('info =', info.length);
+
   return NextResponse.json(
     new ApiResponse(
       200,
@@ -81,7 +84,7 @@ export const GET = errorHandler(async (req: NextRequest) => {
             updatedAt: user.balance.upi.updatedAt,
           },
         },
-        spentInfo: info[0]?.methods
+        spentInfo: info[0].methods
       },
       'Amount spent fetched successfully'
     )
