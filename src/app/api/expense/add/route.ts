@@ -20,13 +20,13 @@ export const POST = errorHandler(async (req: NextRequest) => {
     throw new ApiError(401, 'Unauthorized request');
   }
 
+  await connectDB();
+
   const user = await User.findById(userId);
 
   if(!user) {
     throw new ApiError(401, 'Unauthorized request');
   }
-
-  await connectDB();
 
   const { amount, description, category, paymentMethod } = await req.json();
 
@@ -34,12 +34,16 @@ export const POST = errorHandler(async (req: NextRequest) => {
     throw new ApiError(400, 'All fields are required');
   }
 
+  if(description.length < 3) {
+    throw new ApiError(400, 'Description must be at least 3 characters long');
+  }
+
   if(amount <= 0) {
     throw new ApiError(400, 'Amount must be a positive number');
   }
 
-  if(description.length < 3) {
-    throw new ApiError(400, 'Description must be at least 3 characters long');
+  if(amount > user.balance[paymentMethod.toLowerCase()].amount) {
+    throw new ApiError(400, 'Insufficient balance');
   }
 
   // Now create the expense

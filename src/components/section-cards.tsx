@@ -84,16 +84,16 @@ export function SectionCards() {
   useEffect(() => {
     if(!info) return;
 
-    const lastCashSpentDate = formatDate(info.spentInfo?.cash.lastSpentDate);
-    const lastUpiSpentDate = formatDate(info.spentInfo?.upi.lastSpentDate);
+    const lastCashSpentDate = formatDate(info.spentInfo?.cash?.lastSpentDate);
+    const lastUpiSpentDate = formatDate(info.spentInfo?.upi?.lastSpentDate);
 
-    const lastCashUpdatedAt = formatDate(info.currentInfo?.cash.updatedAt);
-    const lastUpiUpdatedAt = formatDate(info.currentInfo?.upi.updatedAt);
+    const lastCashUpdatedAt = formatDate(info.currentInfo?.cash?.updatedAt);
+    const lastUpiUpdatedAt = formatDate(info.currentInfo?.upi?.updatedAt);
 
     setLastCashSpentDate(lastCashSpentDate);
     setLastUpiSpentDate(lastUpiSpentDate);
     
-    const lastUpdatedAt = info.currentInfo?.cash.updatedAt > info.currentInfo?.upi.updatedAt ? lastCashUpdatedAt : lastUpiUpdatedAt;
+    const lastUpdatedAt = info.currentInfo?.cash?.updatedAt > info.currentInfo?.upi?.updatedAt ? lastCashUpdatedAt : lastUpiUpdatedAt;
     setLastUpdatedAt(lastUpdatedAt);
   }, [info]);
 
@@ -171,7 +171,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Spent this Sem</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            { (info?.spentInfo?.cash.totalAmountSpent || 0) + (info?.spentInfo?.upi.totalAmountSpent || 0) } <span className="text-muted-foreground text-xl">Rs</span>
+            { (info?.spentInfo?.cash?.totalAmountSpent || 0) + (info?.spentInfo?.upi?.totalAmountSpent || 0) } <span className="text-muted-foreground text-xl">Rs</span>
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -185,7 +185,7 @@ export function SectionCards() {
             Amount spent this Sem
           </div>
           <div className="text-muted-foreground">
-            {info?.spentInfo?.cash.totalAmountSpent} in cash, {info?.spentInfo?.upi.totalAmountSpent} in UPI
+            {info?.spentInfo?.cash?.totalAmountSpent || 0} in cash, {info?.spentInfo?.upi?.totalAmountSpent || 0} in UPI
           </div>
         </CardFooter>
       </Card>

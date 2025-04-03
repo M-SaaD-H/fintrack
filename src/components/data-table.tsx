@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "./ui/button"
-import { ChevronRightIcon, ChevronLeftIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react"
+import { ChevronRightIcon, ChevronLeftIcon, ChevronsLeftIcon, ChevronsRightIcon, PiggyBank, PiggyBankIcon, LucidePiggyBank, LucideShoppingBag } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -70,8 +70,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell colSpan={columns.length} className="p-8 text-center">
+                <div className="w-full h-full flex flex-col gap-4 items-center justify-center text-xl font-semibold">
+                  <LucideShoppingBag className="w-10 h-10 mr-4" />
+                  Track your first expense <br /> to get insights on your spending.
+                </div>
               </TableCell>
             </TableRow>
           )}
