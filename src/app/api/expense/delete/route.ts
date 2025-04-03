@@ -49,10 +49,12 @@ export const DELETE = errorHandler(async (req: NextRequest) => {
 
   // Update the user's balance
   if(expense.paymentMethod === 'Cash') {
-    user.balance.cash += expense.amount;
+    user.balance.cash.amount += expense.amount;
   } else {
-    user.balance.upi += expense.amount;
+    user.balance.upi.amount += expense.amount;
   }
+
+  await user.save();
 
   return NextResponse.json(
     new ApiResponse(200, {}, 'Expense deleted successfully')

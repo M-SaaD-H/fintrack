@@ -68,8 +68,6 @@ export const GET = errorHandler(async (req: NextRequest) => {
     }
   ]);
 
-  console.log('info =', info.length);
-
   return NextResponse.json(
     new ApiResponse(
       200,

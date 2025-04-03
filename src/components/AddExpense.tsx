@@ -23,13 +23,7 @@ export const AddExpense = () => {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof addExpenseSchema>>({
-    resolver: zodResolver(addExpenseSchema),
-    defaultValues: {
-      amount: undefined,
-      description: undefined,
-      category: undefined,
-      paymentMethod: undefined,
-    },
+    resolver: zodResolver(addExpenseSchema)
   });
 
   const onSubmit = async (data: z.infer<typeof addExpenseSchema>) => {

@@ -54,14 +54,8 @@ export function NavMain() {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof addBalanceSchema>>({
-    resolver: zodResolver(addBalanceSchema),
-    defaultValues: {
-      upi: undefined,
-      cash: undefined,
-    },
+    resolver: zodResolver(addBalanceSchema)
   });
-
-  const { data: session, update } = useSession();
 
   const handleAddBalance = async (data: z.infer<typeof addBalanceSchema>) => {
     setLoading(true);
