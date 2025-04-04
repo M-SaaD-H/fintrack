@@ -3,8 +3,8 @@ class ApiError extends Error {
   message: string;
   data: Record<string, unknown> | null;
   success: boolean;
-  errors: any[];
-
+  errors: string[];
+  
   constructor(
     statusCode: number,
     message = "Something went wrong",
