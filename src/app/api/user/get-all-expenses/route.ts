@@ -1,3 +1,4 @@
+import { connectDB } from '@/lib/db';
 import { Expense } from '@/models/expense.model';
 import { User } from '@/models/user.model';
 import { ApiError } from '@/utils/apiError';
@@ -20,6 +21,8 @@ export const GET = errorHandler(async (req: NextRequest): Promise<NextResponse> 
     throw new ApiError(401, 'Unauthorized request');
   }
 
+  await connectDB();
+  
   const user = await User.findById(userId);
 
   if (!user) {
