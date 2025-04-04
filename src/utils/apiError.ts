@@ -1,12 +1,10 @@
-interface ApiError {
+class ApiError extends Error {
   statusCode: number;
   message: string;
-  data: any;
+  data: {} | null;
   success: boolean;
   errors: any[];
-}
 
-class ApiError extends Error {
   constructor(
     statusCode: number,
     message = "Something went wrong",

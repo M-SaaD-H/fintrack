@@ -1,11 +1,9 @@
-interface ApiResponse {
+class ApiResponse {
   statusCode: number;
-  data: any;
+  data: {} | null;
   message: string;
   success: boolean;
-}
 
-class ApiResponse implements ApiResponse {
   constructor(statusCode: number, data: any, message = "Success") {
     this.statusCode = statusCode
     this.data = data

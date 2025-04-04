@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "./ui/button"
-import { ChevronRightIcon, ChevronLeftIcon, ChevronsLeftIcon, ChevronsRightIcon, PiggyBank, PiggyBankIcon, LucidePiggyBank, LucideShoppingBag } from "lucide-react"
+import { ChevronRightIcon, ChevronLeftIcon, ChevronsLeftIcon, ChevronsRightIcon, LucideShoppingBag } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

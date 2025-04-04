@@ -205,7 +205,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
           <DrawerHeader>
             <DrawerTitle className="text-xl font-semibold">Edit your expense</DrawerTitle>
             <DrawerDescription>
-              Make changes to your expense here. Click save when you're done.
+              Make changes to your expense here. Click save when you&apos;re done.
             </DrawerDescription>
           </DrawerHeader>
 

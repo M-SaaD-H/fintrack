@@ -6,7 +6,7 @@ export const errorHandler = (handler: (req: NextRequest) => Promise<NextResponse
   return async (req: NextRequest) => {
     try {
       return await handler(req);
-    } catch (error: any) {
+    } catch (error) {
       console.log('E:', error);
 
       if(error instanceof ApiError) {
@@ -28,10 +28,10 @@ export const errorHandler = (handler: (req: NextRequest) => Promise<NextResponse
         new ApiResponse(
           500,
           {
-            errors: [error.message || 'Unknown error occurred'],
+            errors: [error instanceof Error ? error.message : 'Unknown error occurred'],
             data: null
           },
-          error.message || 'Internal Server Error'
+          error instanceof Error ? error.message : 'Internal Server Error'
         ),
         { status: 500 }
       );

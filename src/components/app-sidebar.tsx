@@ -18,6 +18,7 @@ import {
 import { Coins } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { Session } from "next-auth"
+import Link from "next/link"
 
 interface CustomSession extends Session {
   user: {
@@ -49,10 +50,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="/">
+              <Link href="/">
                 <Coins className="!size-5" />
                 <span className="text-base font-semibold">FinTrack</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
