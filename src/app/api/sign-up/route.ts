@@ -24,6 +24,10 @@ export const POST = errorHandler(async (req: NextRequest) => {
     throw new ApiError(400, "Invalid email");
   }
 
+  if(password.length < 8) {
+    throw new ApiError(400, "Password must be at least 8 characters long");
+  }
+
   const existingUser = await User.findOne({
     $or: [
       { username },

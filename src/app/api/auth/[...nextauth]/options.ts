@@ -3,9 +3,14 @@ import { User } from '@/models/user.model';
 import { ApiError } from '@/utils/apiError';
 import { NextAuthOptions, Session, User as NextAuthUser } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       id: 'credentials',
       name: 'Credentials',
@@ -66,7 +71,7 @@ export const authOptions: NextAuthOptions = {
 
       // Subsequent calls
       try {
-        const dbUser = await User.findById(token.sub).select('+balance');
+        const dbUser = await User.findById(token._id);
         if (dbUser) {
           token._id = dbUser._id?.toString();
           token.fullName = dbUser.fullName;
@@ -89,6 +94,44 @@ export const authOptions: NextAuthOptions = {
       }
       
       return session;
+    },
+
+    async signIn({ user, account}) {
+      if(account?.provider !== 'google') return true;
+
+      try {
+        await connectDB();
+      
+        const existingUser = await User.findOne({ email: user.email });
+
+        if(existingUser) {
+          user._id = existingUser._id.toString();
+          user.fullName = existingUser.fullName;
+          user.username = existingUser.username;
+          
+          return true;
+        }
+
+        const username = user.name?.toLowerCase().replace(/\s+/g, "_");
+
+        const newUser = await User.create({
+          fullName: {
+            firstName: user.name?.split(' ')[0] as string,
+            lastName: user.name?.split(' ')[1] as string,
+          },
+          username,
+          email: user.email,
+        });
+
+        user._id = newUser._id.toString();
+        user.fullName = newUser.fullName;
+        user.username = newUser.username;
+      } catch (error) {
+        console.log('Error while signing in:', error);
+        throw error;
+      }
+
+      return true;
     }
   },
   pages: {

@@ -82,7 +82,7 @@ export const GET = errorHandler(async (req: NextRequest) => {
             updatedAt: user.balance.upi.updatedAt,
           },
         },
-        spentInfo: info[0].methods
+        spentInfo: info[0]?.methods
       },
       'Amount spent fetched successfully'
     )

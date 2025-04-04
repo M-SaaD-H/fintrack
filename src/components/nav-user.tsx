@@ -39,7 +39,8 @@ export function NavUser({
       firstName: string,
       lastName: string,
     },
-    email: string
+    email: string,
+    image: string,
   }
 }) {
   const { isMobile } = useSidebar()
@@ -54,7 +55,11 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale flex justify-center items-center">
-                <User size={22} />
+                <AvatarImage src={user.image} />
+                <AvatarFallback className="bg-zinc-100 text-zinc-900">
+                  {user.fullName.firstName.charAt(0)}
+                  {user.fullName.lastName.charAt(0)}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.fullName.firstName}</span>
@@ -73,8 +78,12 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg flex justify-center items-center">
-                  <User size={18} />
+                <Avatar className="h-8 w-8 rounded-lg grayscale flex justify-center items-center">
+                  <AvatarImage src={user.image} />
+                  <AvatarFallback className="bg-zinc-100 text-zinc-900">
+                    {user.fullName.firstName.charAt(0)}
+                    {user.fullName.lastName.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.fullName.firstName}</span>

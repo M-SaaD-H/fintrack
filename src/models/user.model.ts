@@ -9,7 +9,7 @@ export interface IUser extends Document {
   };
   username: string;
   email: string;
-  password: string;
+  password?: string;
   balance: {
     upi: {
       amount: number;
@@ -51,8 +51,6 @@ const userSchema: Schema<IUser> = new Schema(
     },
     password: {
       type: String,
-      required: true,
-      minlength: [8, "Password must be at least 8 characters long"],
     },
     balance: {
       upi: {
@@ -83,6 +81,8 @@ const userSchema: Schema<IUser> = new Schema(
 
 // Hash the password before saving
 userSchema.pre('save', async function (next) {
+  if(!this.password) return next();
+  
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 12);
   }

@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import { ApiResponse } from '@/utils/apiResponse';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { IconBrandGoogle } from '@tabler/icons-react';
+import { signIn } from 'next-auth/react';
 
 const SignUp = () => {
   // form fields
@@ -203,6 +205,19 @@ const SignUp = () => {
               </Button>
             </form>
           </Form>
+
+          <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent to-transparent via-neutral-700" />
+
+          <Button variant={'secondary'}
+            className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md px-8 py-6 font-medium text-black bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]"
+            onClick={() => signIn('google')}
+          >
+            <IconBrandGoogle className="h-4 w-4 text-neutral-300" />
+            <span className="text-sm text-neutral-300">
+              Google
+            </span>
+          </Button>
+          
         </CardContent>
         <CardFooter className='flex items-center justify-center gap-2'>
           <p className='text-sm text-neutral-300'>
