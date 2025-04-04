@@ -73,7 +73,7 @@ export function SectionCards() {
         const res = await axios.get<ApiResponse>('/api/expense/get-info');
 
         if(res.data.success) {
-          setInfo(res.data.data);
+          setInfo(res.data.data as infoType);
         }
       } catch (error) {
         console.error('Error fetching info E:', error);
