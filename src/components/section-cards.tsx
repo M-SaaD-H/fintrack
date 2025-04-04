@@ -1,6 +1,6 @@
 'use client'
 
-import { IconBrandGoogle, IconCashBanknote, IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { IconBrandGoogle, IconCashBanknote } from "@tabler/icons-react"
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -59,7 +59,7 @@ type infoType = {
 }
 
 export function SectionCards() {
-  const { refresh, refreshTrigger } = useRefresh();
+  const { refreshTrigger } = useRefresh();
   const [info, setInfo] = useState<infoType>();
 
   const [lastCashSpentDate, setLastCashSpentDate] = useState<string>('');

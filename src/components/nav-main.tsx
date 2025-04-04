@@ -1,6 +1,6 @@
 "use client"
 
-import { IconCirclePlusFilled, IconDashboard, IconHome, IconMail, type Icon } from "@tabler/icons-react"
+import { IconCirclePlusFilled, IconDashboard, IconHome, type Icon } from "@tabler/icons-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,9 +23,6 @@ import { ApiResponse } from "@/utils/apiResponse"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 import { useRef, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
-import { useTimeout } from "usehooks-ts"
 import { useRefresh } from "@/context/RefreshContext"
 
 type Item = {

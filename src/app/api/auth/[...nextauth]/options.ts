@@ -1,7 +1,7 @@
 import { connectDB } from '@/lib/db';
 import { User } from '@/models/user.model';
 import { ApiError } from '@/utils/apiError';
-import { NextAuthOptions, Session, User as NextAuthUser } from 'next-auth';
+import { NextAuthOptions, User as NextAuthUser } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 

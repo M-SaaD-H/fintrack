@@ -28,8 +28,8 @@ export const PATCH = errorHandler(async (req: NextRequest) => {
   await connectDB();
 
   // Create update object with only the fields that are present
-  const incrementFieldsFields: Record<string, any> = {};
-  const setFields: Record<string, any> = {};
+  const incrementFieldsFields: Record<string, number> = {};
+  const setFields: Record<string, Date> = {};
 
   if (upi) {
     incrementFieldsFields['balance.upi.amount'] = upi;

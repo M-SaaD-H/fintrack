@@ -29,7 +29,6 @@ const SignIn = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof signinSchema>) => {
-    console.log('Data:', data);
     setIsSubmitting(true);
 
     try {
@@ -50,10 +49,10 @@ const SignIn = () => {
 
       toast.success('Sign in successfully');
       router.replace('/dashboard');
-    } catch (error: any) {
+    } catch (error) {
       console.log('Error in signing in:', error);
       toast.error('Sign in failed', {
-        description: error.message || 'An unexpected error occurred'
+        description: error instanceof Error ? error.message : 'An unexpected error occurred'
       });
     } finally {
       setIsSubmitting(false);
@@ -134,7 +133,7 @@ const SignIn = () => {
         </CardContent>
         <CardFooter className='flex items-center justify-center gap-2'>
           <p className='text-sm text-neutral-300'>
-            Don't have an account?
+            Don&apos;t have an account?
           </p>
           <Link href='/sign-up' className='text-sm text-neutral-300 underline underline-offset-4'>Sign up</Link>
         </CardFooter>

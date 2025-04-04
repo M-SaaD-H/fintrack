@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Loader2, MoreVerticalIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { IconBrandGoogle, IconCashBanknote } from "@tabler/icons-react";
-import { Drawer, DrawerTitle, DrawerContent, DrawerHeader, DrawerTrigger, DrawerFooter, DrawerDescription, DrawerClose } from "./ui/drawer";
+import { Drawer, DrawerTitle, DrawerContent, DrawerHeader, DrawerFooter, DrawerDescription, DrawerClose } from "./ui/drawer";
 import { Form, FormControl, FormItem, FormLabel, FormField, FormMessage } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { editExpenseSchema } from "@/schemas/editExpense.schema";

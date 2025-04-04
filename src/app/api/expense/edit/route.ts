@@ -8,7 +8,6 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const PATCH = errorHandler(async (req: NextRequest) => {
-  console.log('got req');
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if(!token) {
@@ -62,7 +61,7 @@ export const PATCH = errorHandler(async (req: NextRequest) => {
 
   const amountDifference = amount !== undefined ? amount - expense.amount : 0;
   
-  const updates: Record<string, any> = {};
+  const updates: Record<string, string | number> = {};
 
   if (amount !== undefined) {
     updates.amount = amount;
