@@ -1,7 +1,7 @@
 class ApiError extends Error {
   statusCode: number;
   message: string;
-  data: {} | null;
+  data: Record<string, unknown> | null;
   success: boolean;
   errors: any[];
 

@@ -1,6 +1,6 @@
 class ApiResponse {
   statusCode: number;
-  data: {} | null;
+  data: Record<string, unknown> | null;
   message: string;
   success: boolean;
 
