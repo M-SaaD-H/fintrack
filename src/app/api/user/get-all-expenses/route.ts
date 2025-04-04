@@ -45,7 +45,9 @@ export const GET = errorHandler(async (req: NextRequest): Promise<NextResponse> 
   return NextResponse.json(
     new ApiResponse(
       200,
-      expenses || [],
+      {
+        expenses: expenses || [],
+      },
       "Expenses fetched successfully"
     )
   )

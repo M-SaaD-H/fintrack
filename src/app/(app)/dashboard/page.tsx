@@ -3,7 +3,7 @@
 import { AppSidebar } from "@/components/app-sidebar"
 // import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { DataTable } from "@/components/data-table"
-import { columns } from "@/components/columns"
+import { columns, Expense } from "@/components/columns"
 import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import {
@@ -15,8 +15,6 @@ import { ApiResponse } from "@/utils/apiResponse"
 import axios from "axios"
 import { toast } from "sonner";
 import { useRefresh } from "@/context/RefreshContext";
-
-import { Expense } from "@/components/columns";
 import { AddExpense } from "@/components/AddExpense";
 
 export default function Page() {
@@ -28,7 +26,7 @@ export default function Page() {
     (async () => {
       try {
         const response = await axios.get<ApiResponse>('/api/user/get-all-expenses');
-        setData(response.data.data);
+        setData(response.data.data?.expenses as Expense[]);
       } catch (error) {
         console.log('Error fetching expenses E:', error);
         toast.error('Error fetching expenses');
