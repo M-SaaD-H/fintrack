@@ -71,6 +71,8 @@ export const authOptions: NextAuthOptions = {
 
       // Subsequent calls
       try {
+        await connectDB();
+        
         const dbUser = await User.findById(token._id);
         if (dbUser) {
           token._id = dbUser._id?.toString();
