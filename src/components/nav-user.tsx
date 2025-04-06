@@ -27,11 +27,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { signOut } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { Skeleton } from "./ui/skeleton"
 
 export function NavUser({
   user,
 }: {
-  user: {
+  user?: {
     fullName: {
       firstName: string,
       lastName: string,
@@ -42,6 +44,12 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
 
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    if(user) setIsLoading(false);
+  }, [user])
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -51,20 +59,42 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale flex justify-center items-center">
-                <AvatarImage src={user.image} />
-                <AvatarFallback className="bg-zinc-100 text-zinc-900">
-                  {user.fullName.firstName.charAt(0)}
-                  {user.fullName.lastName.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
+              {
+                !isLoading ? (
+                  <Avatar className="h-8 w-8 rounded-lg grayscale flex justify-center items-center">
+                    <AvatarImage src={user?.image} />
+                    <AvatarFallback className="bg-zinc-100 text-zinc-900">
+                      {user?.fullName.firstName.charAt(0)}
+                      {user?.fullName.lastName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <Skeleton className="w-8 h-full" />
+                )
+              }
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.fullName.firstName}</span>
+                <span className="truncate font-medium">
+                  {
+                    !isLoading ? (
+                      user?.fullName.firstName
+                    ) : (
+                      <Skeleton className="h-4 w-full rounded-xs" />
+                    )
+                  }
+                </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {
+                    !isLoading ? (
+                      user?.email
+                    ) : (
+                      <Skeleton className="h-2 mt-1 w-full rounded-xs" />
+                    )
+                  }
                 </span>
               </div>
-              <IconDotsVertical className="ml-auto size-4" />
+              {
+                !isLoading && <IconDotsVertical className="ml-auto size-4" />
+              }
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -76,16 +106,16 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg grayscale flex justify-center items-center">
-                  <AvatarImage src={user.image} />
+                  <AvatarImage src={user?.image} />
                   <AvatarFallback className="bg-zinc-100 text-zinc-900">
-                    {user.fullName.firstName.charAt(0)}
-                    {user.fullName.lastName.charAt(0)}
+                    {user?.fullName.firstName.charAt(0) || 'A'}
+                    {user?.fullName.lastName.charAt(0) || 'B'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.fullName.firstName}</span>
+                  <span className="truncate font-medium">{user?.fullName.firstName || 'User'}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {user?.email || 'user@gmail.com'}
                   </span>
                 </div>
               </div>

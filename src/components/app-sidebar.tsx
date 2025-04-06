@@ -37,12 +37,10 @@ interface CustomSession extends Session {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: session } = useSession() as { data: CustomSession, status: string };
-
-  if(!session || !session.user) return null;
+  const { data: session } = useSession({ required: true }) as { data: CustomSession, status: string };
 
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -64,7 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={session.user} />
+        <NavUser user={session?.user} />
       </SidebarFooter>
     </Sidebar>
   )

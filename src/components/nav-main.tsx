@@ -23,7 +23,7 @@ import { ApiResponse } from "@/utils/apiResponse"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 import { useRef, useState } from "react"
-import { useRefresh } from "@/context/RefreshContext"
+import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore"
 
 type Item = {
   title: string,
@@ -33,7 +33,7 @@ type Item = {
 
 export function NavMain() {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
-  const { refresh } = useRefresh();
+  const { fetchUserInfo } = useUserExpenseInfoStore();
 
   const items: Item[] = [
     {
@@ -62,7 +62,7 @@ export function NavMain() {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        refresh();
+        fetchUserInfo();
       }
     } catch (error) {
       console.error('Error while updating balance E:', error);

@@ -13,9 +13,8 @@ import {
 } from "@/components/ui/card"
 import { ShoppingBag, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { ApiResponse } from "@/utils/apiResponse";
-import { useRefresh } from "@/context/RefreshContext";
+import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore";
+import { Skeleton } from "./ui/skeleton";
 
 function formatDate(date: Date | string) {
   if(typeof window === 'undefined') return '';
@@ -35,51 +34,17 @@ function formatDate(date: Date | string) {
   return formattedDate;
 }
 
-type infoType = {
-  currentInfo: {
-    cash: {
-      amount: number;
-      updatedAt: Date;
-    };
-    upi: {
-      amount: number;
-      updatedAt: Date;
-    };
-  };
-  spentInfo: {
-    upi: {
-      totalAmountSpent: number;
-      lastSpentDate: Date;
-    };
-    cash: {
-      totalAmountSpent: number;
-      lastSpentDate: Date;
-    };
-  }
-}
-
 export function SectionCards() {
-  const { refreshTrigger } = useRefresh();
-  const [info, setInfo] = useState<infoType>();
-
   const [lastCashSpentDate, setLastCashSpentDate] = useState<string>('');
   const [lastUpiSpentDate, setLastUpiSpentDate] = useState<string>('');
 
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string>('');
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get<ApiResponse>('/api/expense/get-info');
+  const { info, isFetchingUserInfo, fetchUserInfo } = useUserExpenseInfoStore();
 
-        if(res.data.success) {
-          setInfo(res.data.data as infoType);
-        }
-      } catch (error) {
-        console.error('Error fetching info E:', error);
-      }
-    })();
-  }, [setInfo, refreshTrigger]);
+  useEffect(() => {
+    fetchUserInfo();
+  }, [fetchUserInfo]);
 
   useEffect(() => {
     if(!info) return;
@@ -96,6 +61,17 @@ export function SectionCards() {
     const lastUpdatedAt = info.currentInfo?.cash?.updatedAt > info.currentInfo?.upi?.updatedAt ? lastCashUpdatedAt : lastUpiUpdatedAt;
     setLastUpdatedAt(lastUpdatedAt);
   }, [info]);
+
+  if(isFetchingUserInfo || !info) {
+    return (
+      <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 h-[11.5em]">
+        <Skeleton className='w-full h-full' />
+        <Skeleton className='w-full h-full' />
+        <Skeleton className='w-full h-full' />
+        <Skeleton className='w-full h-full' />
+      </div>
+    )
+  }
 
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">

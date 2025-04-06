@@ -19,7 +19,8 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { ApiResponse } from "@/utils/apiResponse";
-import { useRefresh } from "@/context/RefreshContext";
+import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore";
+import { useUserExpensesStore } from "@/store/userExpensesStore";
 
 function formatDate(date: Date | string) {
   if (typeof window === 'undefined') return '';
@@ -119,7 +120,8 @@ export const columns: ColumnDef<Expense>[] = [
 const Actions = ({ row }: { row: Row<Expense> }) => {
   const isMoble = useIsMobile();
   const [open, setOpen] = useState(false);
-  const { refresh } = useRefresh();
+  const { fetchUserInfo } = useUserExpenseInfoStore();
+  const { fetchUserExpenses } = useUserExpensesStore();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof editExpenseSchema>>({
@@ -140,7 +142,8 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
 
       if (response.data.success) {
         toast.success('Expense updated successfully');
-        refresh();
+        fetchUserInfo();
+        fetchUserExpenses();
       }
     } catch (error) {
       console.error('Error while updating expense E:', error);
@@ -163,7 +166,8 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
 
       if (response.data.success) {
         toast.success('Expense deleted successfully');
-        refresh();
+        fetchUserInfo();
+        fetchUserExpenses();
       }
     } catch (error) {
       console.error('Error while deleting expense:', error);

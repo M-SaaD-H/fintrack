@@ -10,29 +10,17 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
-import { useEffect, useState } from "react";
-import { ApiResponse } from "@/utils/apiResponse"
-import axios from "axios"
-import { toast } from "sonner";
-import { useRefresh } from "@/context/RefreshContext";
 import { AddExpense } from "@/components/AddExpense";
+import { useUserExpensesStore } from "@/store/userExpensesStore";
+import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 export default function Page() {
-  const [data, setData] = useState<Expense[]>([]);
-
-  const { refreshTrigger } = useRefresh();
-
+  const { expenses, isFetchingExpenses, fetchUserExpenses } = useUserExpensesStore();
+  
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get<ApiResponse>('/api/user/get-all-expenses');
-        setData(response.data.data?.expenses as Expense[]);
-      } catch (error) {
-        console.log('Error fetching expenses E:', error);
-        toast.error('Error fetching expenses');
-      }
-    })();
-  }, [setData, refreshTrigger]);
+    fetchUserExpenses();
+  }, [fetchUserExpenses]);
 
   return (
     <SidebarProvider
@@ -56,7 +44,15 @@ export default function Page() {
               </div> */}
               <AddExpense />
               <div className="px-4 lg:px-6">
-                <DataTable columns={columns} data={data} />
+                {
+                  !isFetchingExpenses ? (
+                    <DataTable columns={columns} data={expenses as Expense[]} />
+                  ): (
+                    <div className="w-full h-full flex justify-center items-center mx-auto">
+                      <Loader2 className="animate-spin mx-auto" size={64} />
+                    </div>
+                  )
+                }
               </div>
             </div>
           </div>

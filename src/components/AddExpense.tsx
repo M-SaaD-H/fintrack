@@ -1,10 +1,11 @@
+'use client';
+
 import { useState } from "react";
 
 import { Button } from "./ui/button"
 import { Loader2, PlusIcon } from "lucide-react"
 import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogTrigger, DialogDescription, DialogClose, DialogFooter } from "./ui/dialog"
 import { useRef } from "react";
-import { useRefresh } from "@/context/RefreshContext";
 import { Form, FormField, FormLabel, FormControl, FormItem, FormMessage } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,10 +17,14 @@ import axios from "axios";
 import { ApiResponse } from "@/utils/apiResponse";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore";
+import { useUserExpensesStore } from "@/store/userExpensesStore";
 
 export const AddExpense = () => {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
-  const { refresh } = useRefresh();
+  const { fetchUserInfo } = useUserExpenseInfoStore();
+  const { fetchUserExpenses } = useUserExpensesStore();
+  
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof addExpenseSchema>>({
@@ -33,7 +38,8 @@ export const AddExpense = () => {
       
       if(response.data.success) {
         toast.success(response.data.message);
-        refresh();
+        fetchUserInfo();
+        fetchUserExpenses();
       }
     } catch (error) {
       console.log('Error adding expense E:', error);
