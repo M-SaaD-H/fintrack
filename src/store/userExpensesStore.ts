@@ -1,4 +1,3 @@
-import { description } from "@/components/chart-area-interactive";
 import { Expense } from "@/components/columns";
 import { ApiResponse } from "@/utils/apiResponse";
 import axios, { AxiosError } from "axios";
