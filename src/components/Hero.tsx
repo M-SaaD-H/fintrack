@@ -3,26 +3,56 @@
 import { useIsMobile } from '@/hooks/use-mobile'
 import Image from 'next/image'
 import React from 'react'
+import { motion } from 'motion/react'
 
 function Hero() {
   const isMobile = useIsMobile();
 
-  return (
-    <div className='mt-16 flex flex-col items-center justify-center gap-4'>
-      <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-600 to-white text-4xl md:text-7xl font-sans relative z-20 font-bold tracking-tight">
-        Manage Finances <br /> Easily and Smartly.
-      </h2>
-      <p className='text-neutral-300 text-center mx-4'>FinTrack helps you control spending, track income, and manage savings with an intuitive financial dashboard.</p>
+  const parentVariant = {
+    appear: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  }
 
-      <div className='md:mt-16 mt-8 relative flex justify-center items-center'>
+  const childVariant = {
+    initial: {
+      y: 50,
+      opacity: 0
+    },
+    appear: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: 'easeInOut'
+      }
+    }
+  }
+
+  return (
+    <motion.div
+      variants={parentVariant}
+      initial={'initial'}
+      animate={'appear'}
+      className='mt-16 flex flex-col items-center justify-center gap-4'
+    >
+      <motion.h2 variants={childVariant} className="bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-600 to-white text-4xl md:text-7xl font-sans relative z-20 font-bold tracking-tight">
+        Manage Finances <br /> Easily and Smartly.
+      </motion.h2>
+      <motion.p variants={childVariant} className='text-neutral-300 text-center mx-4'>FinTrack helps you control spending, track income, and manage savings with an intuitive financial dashboard.</motion.p>
+
+      <motion.div variants={childVariant} className='md:mt-16 mt-8 relative flex justify-center items-center'>
         <div className='overflow-hidden border-2 border-white rounded-lg'>
           <Image src={'/hero.png'} height={555} width={!isMobile ? 1080 : 350} alt='Dashboard Image' className='h-auto w-auto' />
-        <div className="absolute inset-0 bg-gradient-to-b from-10% to-90% from-transparent to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-10% to-90% from-transparent to-black/80" />
         </div>
         <div className='bg-purple-500/50 h-[13rem] md:h-[33rem] md:w-[63rem] w-full absolute -z-1 blur-2xl' />
-      </div>
+      </motion.div>
       <div className='w-full h-20 -mt-16 blur-xl relative -z-10 bg-purple-500/70' />
-    </div>
+    </motion.div>
   )
 }
 
