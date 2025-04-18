@@ -65,7 +65,7 @@ export const BentoGridItem = ({
               height={500}
               width={500}
               alt={'feature'}
-              className='w-[90%] ml-auto'
+              className='w-full rounded-lg'
             />
             <div className="absolute inset-0 bg-gradient-to-b from-10% to-90% from-transparent to-black/80" />
           </div>
