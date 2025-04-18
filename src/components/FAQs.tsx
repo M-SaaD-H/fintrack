@@ -45,6 +45,7 @@ function FAQs() {
             height={500}
             alt='Dashboard Image'
             className='w-full object-cover'
+            priority={false}
           />
           <div className="absolute inset-0 bg-gradient-to-bl from-40% to-100% from-transparent to-black/80" />
         </div>

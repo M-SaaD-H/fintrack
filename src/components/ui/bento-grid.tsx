@@ -66,6 +66,7 @@ export const BentoGridItem = ({
               width={500}
               alt={'feature'}
               className='w-full rounded-lg'
+              priority={false}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-10% to-90% from-transparent to-black/80" />
           </div>
