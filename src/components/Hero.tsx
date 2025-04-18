@@ -37,7 +37,7 @@ function Hero() {
       variants={parentVariant}
       initial={'initial'}
       animate={'appear'}
-      className='mt-16 flex flex-col items-center justify-center gap-4'
+      className='mt-16 flex flex-col items-center justify-center gap-4 h-[50rem]'
     >
       <motion.h2 variants={childVariant} className="bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-600 to-white text-4xl md:text-7xl font-sans relative z-20 font-bold tracking-tight">
         Manage Finances <br /> Easily and Smartly.
