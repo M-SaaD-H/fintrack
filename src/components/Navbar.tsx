@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AnimatePresence, motion } from 'motion/react'
+import Image from 'next/image'
 
 const navLinks = [
   {
@@ -83,7 +84,13 @@ const Navbar = () => {
         <div className='flex items-center gap-16 text-neutral-400'>
           <div className='flex items-center'>
             <div className='h-24 w-24 rounded-full'>
-              <img src="logo.png" alt="" className='h-full w-full object-cover' />
+              <Image
+                src={'/logo.png'}
+                height={96}
+                width={96}
+                alt='Logo'
+                className='h-full w-full object-cover'
+              />
             </div>
             <span className='text-3xl text-white font-bold -ml-4 mb-2'>
               FinTrack

@@ -1,6 +1,5 @@
 import React from 'react'
 import { BentoGrid, BentoGridItem } from './ui/bento-grid'
-import { useIsMobile } from '@/hooks/use-mobile';
 
 const items = [
   {
