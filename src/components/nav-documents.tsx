@@ -36,7 +36,7 @@ export function NavDocuments() {
     },
     {
       name: 'X',
-      url: '',
+      url: 'https://x.com/_MSaaDH',
       icon: IconBrandX,
     },
   ];
