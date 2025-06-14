@@ -11,8 +11,8 @@ function Hero() {
   const parentVariant = {
     appear: {
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.1
       }
     }
   }
@@ -20,11 +20,13 @@ function Hero() {
   const childVariant = {
     initial: {
       y: 50,
-      opacity: 0
+      opacity: 0,
+      filter: 'blur(10px)'
     },
     appear: {
       y: 0,
       opacity: 1,
+      filter: 'blur(0px)',
       transition: {
         duration: 0.4,
         ease: 'easeInOut'

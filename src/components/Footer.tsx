@@ -13,7 +13,7 @@ const footerLinks1 = [
     href: '/#features'
   },
   {
-    name: '/benefits',
+    name: 'Benefits',
     href: '/#benefits'
   },
   {
@@ -55,14 +55,14 @@ function Footer() {
             />
             <span className='-ml-8 text-4xl font-sans tracking-tight font-semibold'>FinTrack</span>
           </div>
-          <h2 className='-mt-8 md:ml-8 md:text-2xl text-lg font-semibold md:max-w-lg max-md:text-center'>Start managing your money smarter and achieve your financial goals with ease.</h2>
+          <h2 className='-mt-8 md:ml-8 text-balance md:max-w-lg max-md:text-center'>Start managing your money smarter and achieve your financial goals with ease.</h2>
         </div>
-        <div className='mt-8 md:mt-12 flex justify-center gap-24'>
+        <div className='mt-8 md:mt-12 mx-12 flex justify-center gap-24'>
           <ul>
             <h1 className='text-xl font-semibold my-6'>Quick Links</h1>
             {
               footerLinks1.map((l, i) => (
-                <li key={i} className='font-medium my-2 w-max rounded-full'>
+                <li key={i} className='my-2 w-max rounded-full'>
                   <Link href={l.href} className='peer'>{l.name}</Link>
                   <div className='h-0.5 rounded-4xl w-0 bg-white peer-hover:w-full transition-all' />
                 </li>
@@ -74,7 +74,7 @@ function Footer() {
             <h1 className='text-xl font-semibold my-6'>Support & Resources</h1>
             {
               footerLinks2.map((l, i) => (
-                <li key={i} className='font-medium my-2 w-max rounded-full'>
+                <li key={i} className='my-2 w-max rounded-full'>
                   <Link href={l.href} className='peer'>{l.name}</Link>
                   <div className='h-0.5 rounded-4xl w-0 bg-white peer-hover:w-full transition-all' />
                 </li>
@@ -84,7 +84,7 @@ function Footer() {
         </div>
       </div>
       <div className='flex flex-col-reverse md:flex-row items-center md:justify-between md:mx-8 mt-8 md:mt-36'>
-        <p className='text-nowrap'>Copyright &copy; 2025 FinTrack. All rights are reserved.</p>
+        <p className='text-nowrap'>Copyright &copy; {new Date().getFullYear()} FinTrack. All rights are reserved.</p>
         <SocialIcons iconSize='28' />
       </div>
     </footer>

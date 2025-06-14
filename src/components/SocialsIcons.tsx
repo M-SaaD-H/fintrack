@@ -11,7 +11,7 @@ type SocialIconLinks = {
 }
 
 const SocialIcons: React.FC<SocialIconLinks> = ({
-  instagram = 'https://www.instagram.com/mohd.saadhaider/',
+  instagram = 'https://www.instagram.com/_m_saad_h',
   linkedin = 'https://www.linkedin.com/in/muhammad-saad-haider-942167317/',
   x = 'https://x.com/_MSaaDH',
   iconSize = '28',

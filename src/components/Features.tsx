@@ -33,7 +33,7 @@ const items = [
 function Features() {
   return (
     <section id='features' className='bg-black -mt-16 p-16 relative z-50 w-full'>
-      <h2 className='md:text-6xl text-3xl font-sans font-semibold tracking-tight text-center md:text-nowrap my-4'>Powerful Features to Elevate <br /> You Fianncially</h2>
+      <h2 className='md:text-6xl text-3xl font-sans font-semibold tracking-tight text-center md:text-nowrap my-4'>Powerful Features to Elevate <br /> You Financially</h2>
       <p className='text-neutral-300 text-center max-w-md text-wrap mx-auto'>All the tools you need to manage your money - smart, simple and seamless.</p>
       <BentoGrid className="max-w-5xl mx-auto md:auto-rows-[20rem] my-8">
         {items.map((item, i) => (

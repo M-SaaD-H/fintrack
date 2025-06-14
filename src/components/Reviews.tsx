@@ -78,7 +78,7 @@ const Reviews = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-60% to-100% from-transparent to-black/80" />
         <p className='text-muted-foreground text-sm mt-8'>* These testimonials are based on intended use. Real user feedback coming soon!</p>
-        <div className='md:hidden flex justify-center gap-4 mt-18 relative z-50'>
+        <div className='md:hidden flex justify-center gap-4 mt-12 relative z-50'>
           <div onClick={decOffset} className='border-white/[0.2] rounded-lg p-2 border flex justify-center items-center'><ChevronLeft size={28} /></div>
           <div onClick={incOffset} className='border-white/[0.2] rounded-lg p-2 border flex justify-center items-center'><ChevronRight size={28} /></div>
         </div>

@@ -146,7 +146,7 @@ const Navbar = () => {
                 opacity: 0,
                 height: 0
               }}
-              className='bg-neutral-950 w-[90%] rounded-lg mx-auto'
+              className='bg-zinc-900 w-[95%] py-4 rounded-lg left-1/2 -translate-x-1/2 absolute z-50'
             >
               <motion.ul variants={parentVariant} className='flex flex-col justify-center items-center gap-4 p-6 text-lg'>
                 {
