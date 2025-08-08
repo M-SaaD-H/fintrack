@@ -19,9 +19,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectTrigger, SelectItem, SelectValue } from "@/components/ui/select";
 
 export default function Page() {
-  const { expenses, isFetchingExpenses, fetchUserExpenses, currentSem, setCurrentSem } = useUserExpensesStore();
+  const { expenses, isFetchingExpenses, fetchUserExpenses } = useUserExpensesStore();
   const { data: session } = useSession();
-  const [selectedSem, setSelectedSem] = useState<string>(currentSem.toString());
+  const [selectedSem, setSelectedSem] = useState<string>(session?.user.activeSem?.toString() || "1");
 
   useEffect(() => {
     if (session?.user?.activeSem) {
@@ -31,9 +31,8 @@ export default function Page() {
   }, [fetchUserExpenses, session?.user?.activeSem]);
 
   const handleSemesterChange = (value: string) => {
-    const sem = parseInt(value);
     setSelectedSem(value);
-    fetchUserExpenses(sem);
+    fetchUserExpenses(parseInt(value));
   };
 
   return (
@@ -54,7 +53,7 @@ export default function Page() {
               <div className="flex justify-between items-center px-4 lg:px-6">
                 <div className="flex items-center gap-2">
                   <h2 className="text-lg font-semibold">Balance</h2>
-                  <Badge variant="outline">Semester {currentSem}</Badge>
+                  <Badge variant="outline">Semester {session?.user.activeSem || 1}</Badge>
                 </div>
               </div>
               <SectionCards />
@@ -65,7 +64,7 @@ export default function Page() {
               <div className="flex justify-between mx-8">
                 <Select value={selectedSem} onValueChange={handleSemesterChange}>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder={"Semester " + currentSem} />
+                    <SelectValue placeholder={"Semester " + selectedSem} />
                   </SelectTrigger>
                   <SelectContent>
                   {Array.from({ length: session?.user?.activeSem || 1 }, (_, i) => (
