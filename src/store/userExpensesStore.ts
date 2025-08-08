@@ -18,7 +18,7 @@ const userExpensesStore: StateCreator<UserExpensesStore> = (set) => ({
   fetchUserExpenses: async (sem: number) => {
     set({ isFetchingExpenses: true });
     try {
-      const response = await axios.get<ApiResponse>(`/api/user/get-all-expenses/sem/${sem}`);
+      const response = await axios.get<ApiResponse>(`/api/user/get-all-expenses/sem?sem=${sem}`);
       set({ expenses: response.data.data?.expenses as Expense[] })
     } catch (error) {
       console.log('Error fetching expenses E:', error);

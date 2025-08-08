@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { ApiResponse } from "@/utils/apiResponse";
 import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore";
 import { useUserExpensesStore } from "@/store/userExpensesStore";
+import { useSession } from "next-auth/react";
 
 function formatDate(date: Date | string) {
   if (typeof window === 'undefined') return '';
@@ -121,8 +122,9 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
   const isMoble = useIsMobile();
   const [open, setOpen] = useState(false);
   const { fetchUserInfo } = useUserExpenseInfoStore();
-  const { fetchUserExpenses, currentSem } = useUserExpensesStore();
+  const { fetchUserExpenses } = useUserExpensesStore();
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   const form = useForm<z.infer<typeof editExpenseSchema>>({
     resolver: zodResolver(editExpenseSchema),
@@ -143,7 +145,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
       if (response.data.success) {
         toast.success('Expense updated successfully');
         fetchUserInfo();
-        fetchUserExpenses(currentSem);
+        fetchUserExpenses(session?.user.activeSem || 1);
       }
     } catch (error) {
       console.error('Error while updating expense E:', error);
@@ -167,7 +169,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
       if (response.data.success) {
         toast.success('Expense deleted successfully');
         fetchUserInfo();
-        fetchUserExpenses(currentSem);
+        fetchUserExpenses(session?.user.activeSem || 1);
       }
     } catch (error) {
       console.error('Error while deleting expense:', error);

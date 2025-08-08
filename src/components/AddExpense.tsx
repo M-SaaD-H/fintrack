@@ -24,7 +24,7 @@ import { useSession } from "next-auth/react";
 export const AddExpense = () => {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
   const { fetchUserInfo } = useUserExpenseInfoStore();
-  const { fetchUserExpenses, currentSem } = useUserExpensesStore();
+  const { fetchUserExpenses } = useUserExpensesStore();
   const { data: session } = useSession();
   
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ export const AddExpense = () => {
         toast.success(response.data.message);
         fetchUserInfo();
         // Refresh expenses for the current selected semester
-        fetchUserExpenses(session?.user?.activeSem || currentSem);
+        fetchUserExpenses(session?.user?.activeSem || 1);
       }
     } catch (error) {
       console.log('Error adding expense E:', error);

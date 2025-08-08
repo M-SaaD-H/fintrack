@@ -30,9 +30,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { signOut, useSession } from "next-auth/react"
-import { SetStateAction, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Skeleton } from "./ui/skeleton"
-import { Dialog, DialogDescription, DialogTitle, DialogHeader, DialogContent, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogDescription, DialogTitle, DialogHeader, DialogContent } from "./ui/dialog"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { toast } from "sonner"
@@ -170,8 +170,8 @@ const UpdateSem = ({
   userActiveSem: number
 }) => {
   const [sem, setSem] = useState(userActiveSem);
-  const { fetchUserExpenses, setCurrentSem } = useUserExpensesStore();
-  const { data: session, update } = useSession();
+  const { fetchUserExpenses } = useUserExpensesStore();
+  const { update } = useSession();
 
   const handleSubmit = async () => {
     try {
@@ -183,7 +183,6 @@ const UpdateSem = ({
         await fetchUserExpenses(sem);
         // Update session to reflect the new semester
         await update();
-        setCurrentSem(sem);
       }
     } catch (error) {
       console.log('Error updating sem E:', error);
