@@ -19,11 +19,13 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useUserExpenseInfoStore } from "@/store/userExpenseInfoStore";
 import { useUserExpensesStore } from "@/store/userExpensesStore";
+import { useSession } from "next-auth/react";
 
 export const AddExpense = () => {
   const closeDialogRef = useRef<HTMLButtonElement>(null);
   const { fetchUserInfo } = useUserExpenseInfoStore();
-  const { fetchUserExpenses } = useUserExpensesStore();
+  const { fetchUserExpenses, currentSem } = useUserExpensesStore();
+  const { data: session } = useSession();
   
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +41,8 @@ export const AddExpense = () => {
       if(response.data.success) {
         toast.success(response.data.message);
         fetchUserInfo();
-        fetchUserExpenses();
+        // Refresh expenses for the current selected semester
+        fetchUserExpenses(session?.user?.activeSem || currentSem);
       }
     } catch (error) {
       console.log('Error adding expense E:', error);
@@ -57,7 +60,7 @@ export const AddExpense = () => {
   }
 
   return (
-    <div className="text-right mx-4 lg:mx-6">
+    <div className="mx-4 lg:mx-6">
       <Dialog>
         <DialogTrigger asChild>
           <Button>

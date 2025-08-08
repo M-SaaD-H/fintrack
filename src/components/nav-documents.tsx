@@ -30,11 +30,6 @@ export function NavDocuments() {
       icon: IconBrandGithub,
     },
     {
-      name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/muhammad-saad-haider-942167317/',
-      icon: IconBrandLinkedin,
-    },
-    {
       name: 'X',
       url: 'https://x.com/_MSaaDH',
       icon: IconBrandX,

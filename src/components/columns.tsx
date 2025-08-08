@@ -121,7 +121,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
   const isMoble = useIsMobile();
   const [open, setOpen] = useState(false);
   const { fetchUserInfo } = useUserExpenseInfoStore();
-  const { fetchUserExpenses } = useUserExpensesStore();
+  const { fetchUserExpenses, currentSem } = useUserExpensesStore();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof editExpenseSchema>>({
@@ -143,7 +143,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
       if (response.data.success) {
         toast.success('Expense updated successfully');
         fetchUserInfo();
-        fetchUserExpenses();
+        fetchUserExpenses(currentSem);
       }
     } catch (error) {
       console.error('Error while updating expense E:', error);
@@ -167,7 +167,7 @@ const Actions = ({ row }: { row: Row<Expense> }) => {
       if (response.data.success) {
         toast.success('Expense deleted successfully');
         fetchUserInfo();
-        fetchUserExpenses();
+        fetchUserExpenses(currentSem);
       }
     } catch (error) {
       console.error('Error while deleting expense:', error);

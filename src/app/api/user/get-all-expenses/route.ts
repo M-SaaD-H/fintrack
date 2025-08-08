@@ -5,8 +5,7 @@ import { ApiError } from '@/utils/apiError';
 import { ApiResponse } from '@/utils/apiResponse';
 import { errorHandler } from '@/utils/errorHandler';
 import { getToken } from 'next-auth/jwt';
-import { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = errorHandler(async (req: NextRequest): Promise<NextResponse> => {
   const token = await getToken({ req });

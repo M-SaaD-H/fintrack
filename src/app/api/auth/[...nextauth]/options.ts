@@ -66,6 +66,7 @@ export const authOptions: NextAuthOptions = {
         token.fullName = user.fullName;
         token.username = user.username;
         token.email = user.email;
+        token.activeSem = user.activeSem
         return token;
       }
 
@@ -79,6 +80,7 @@ export const authOptions: NextAuthOptions = {
           token.fullName = dbUser.fullName;
           token.username = dbUser.username;
           token.email = dbUser.email;
+          token.activeSem = dbUser.activeSem;
         }
       } catch (error) {
         console.error("Error fetching user in jwt callback:", error);
@@ -93,6 +95,7 @@ export const authOptions: NextAuthOptions = {
         session.user.fullName = token.fullName;
         session.user.username = token.username;
         session.user.email = token.email;
+        session.user.activeSem = token.activeSem as number;
       }
       
       return session;

@@ -59,6 +59,10 @@ export const PATCH = errorHandler(async (req: NextRequest) => {
     throw new ApiError(403, 'Only the owner can update the expense');
   }
 
+  if (user.activeSem > expense.sems) {
+    throw new ApiError(401, 'Past Sem expenses are not allowed to update');
+  }
+
   const amountDifference = amount !== undefined ? amount - expense.amount : 0;
   
   const updates: Record<string, string | number> = {};

@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { ApiResponse } from "./apiResponse";
 import { ApiError } from "./apiError";
 
-export const errorHandler = (handler: (req: NextRequest) => Promise<NextResponse>) => {
-  return async (req: NextRequest) => {
+export const errorHandler = (handler: (req: NextRequest, { params }: { params?: { sem: string } }) => Promise<NextResponse>) => {
+  return async (req: NextRequest, context: { params?: { sem: string } } = {}) => {
     try {
-      return await handler(req);
+      return await handler(req, context);
     } catch (error) {
       console.log('E:', error);
 

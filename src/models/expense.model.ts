@@ -6,6 +6,7 @@ export interface IExpense extends Document {
   description: string;
   category: string;
   paymentMethod: string;
+  sem: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -36,6 +37,12 @@ const expenseSchema: Schema<IExpense> = new Schema(
       type: String,
       required: true,
       enum: ['Cash', 'UPI'],
+    },
+    sem: {
+      type: Number,
+      required: true,
+      default: 1,
+      min: [1, "Semester must be atleast 1"]
     }
   }, { timestamps: true }
 );

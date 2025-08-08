@@ -45,6 +45,10 @@ export const DELETE = errorHandler(async (req: NextRequest) => {
     throw new ApiError(403, 'Only the owner can delete the expense');
   }
 
+  if (user.activeSem > expense.sems) {
+    throw new ApiError(401, 'Past Sem expenses are not allowed to delete');
+  }
+
   await expense.deleteOne();
 
   // Update the user's balance

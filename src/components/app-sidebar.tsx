@@ -32,6 +32,7 @@ interface CustomSession extends Session {
       cash: number,
       updatedAt: Date
     },
+    activeSem: number,
     image: string,
   },
 }

@@ -18,6 +18,7 @@ declare module 'next-auth' {
       cash?: number,
       updatedAt?: Date
     },
+    activeSem: number,
     createdAt?: Date,
     updatedAt?: Date
   }
@@ -36,6 +37,7 @@ declare module 'next-auth' {
       cash?: number,
       updatedAt?: Date
     },
+    activeSem: number,
     } & DefaultSession['user']
   }
 }

@@ -52,7 +52,8 @@ export const POST = errorHandler(async (req: NextRequest) => {
     amount,
     description,
     category,
-    paymentMethod
+    paymentMethod,
+    sem: user.activeSem
   });
 
   if(!expense) {

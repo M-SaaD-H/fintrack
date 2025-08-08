@@ -20,6 +20,7 @@ export interface IUser extends Document {
       updatedAt: Date;
     };
   };
+  activeSem: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -74,6 +75,12 @@ const userSchema: Schema<IUser> = new Schema(
         }
       },
     },
+    activeSem: {
+      type: Number,
+      required: true,
+      default: 1,
+      min: [1, "Semester must be at least 1"]
+    }
   }, {
     timestamps: true,
   }
